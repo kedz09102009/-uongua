@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Đường Đua</title>
-<meta name="description" content="Đặt mục tiêu và hạn chót, chạy đua với chính mình, gia hạn bằng lập luận khi chưa kịp.">
+<title>Đường Đua · Personal OS</title>
+<meta name="description" content="Đường Đua kết hợp quản lý mục tiêu, hiến chương cá nhân, kiểm toán và trách nhiệm.">
 <meta name="theme-color" content="#ECEFE8" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0C1511" media="(prefers-color-scheme: dark)">
 <meta name="mobile-web-app-capable" content="yes">
@@ -277,6 +277,61 @@ input:focus,textarea:focus{outline:3px solid var(--accent);outline-offset:0;bord
 .toast span{background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:99px;font-size:.86rem;font-weight:600;opacity:0;transform:translateY(12px);transition:opacity .25s,transform .25s;max-width:100%}
 .toast.on span{opacity:1;transform:none}
 
+
+/* ---------- Personal OS ---------- */
+.app-nav{display:flex;gap:8px;flex-wrap:wrap;padding:14px 0 4px;border-bottom:1px solid var(--line)}
+.nav-tab{border:1px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:999px;padding:9px 15px;min-height:40px;font-size:.86rem;font-weight:700}
+.nav-tab[aria-current="page"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.os-wrap{padding:22px 0 44px;display:grid;gap:18px}
+.os-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.os-eyebrow{color:var(--mute);font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase}
+.os-title{font:italic 700 clamp(2rem,5vw,3rem)/1.05 var(--font-display);margin-top:3px}
+.os-sub{color:var(--ink-2);font-size:.9rem;max-width:68ch;margin-top:7px}
+.os-local{display:flex;gap:8px;align-items:flex-start;padding:11px 13px;border:1px solid var(--warn);background:var(--warn-soft);color:var(--ink);border-radius:10px;font-size:.8rem}
+.os-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.os-metric{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:15px;min-width:0}
+.os-metric small{display:block;color:var(--mute);font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.os-metric strong{display:block;font:italic 700 2.1rem/1.15 var(--font-display);margin-top:4px;font-variant-numeric:tabular-nums}
+.os-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;min-width:0}
+.os-card-head{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.os-card-head h3{font-size:.75rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--mute)}
+.os-card-body{padding:16px 18px;display:grid;gap:12px}
+.os-rule{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:start;padding:12px 0;border-top:1px solid var(--line)}
+.os-rule:first-child{border-top:0;padding-top:0}
+.os-rule h4{font-size:.98rem}
+.os-rule p{font-size:.82rem;color:var(--mute);margin-top:4px}
+.os-tag{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:99px;padding:3px 9px;color:var(--ink-2);font-size:.7rem;font-weight:700;white-space:nowrap}
+.os-tabs{display:flex;gap:7px;flex-wrap:wrap}
+.os-tab{border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:8px 12px;font-size:.82rem;font-weight:700;color:var(--ink-2);min-height:38px}
+.os-tab[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
+.os-form{display:grid;gap:14px}
+.os-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.os-field{display:grid;gap:6px;min-width:0}
+.os-field.full{grid-column:1/-1}
+.os-field label,.os-field .label{font-size:.82rem;font-weight:700}
+.os-field select{width:100%;min-width:0;background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:10px 12px;min-height:44px;font:inherit;color:var(--ink)}
+.os-field select:focus{outline:3px solid var(--accent);outline-offset:0;border-color:var(--accent)}
+.os-audit-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(150px,.7fr);gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.os-audit-row:first-child{border-top:0}
+.os-audit-row b{font-size:.9rem}
+.os-audit-row small{display:block;color:var(--mute);font-size:.76rem;margin-top:3px}
+.os-audit-row select{width:100%;min-width:0;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px;font:inherit;color:var(--ink)}
+.os-record{display:grid;gap:8px;padding:13px 0;border-top:1px solid var(--line)}
+.os-record:first-child{border-top:0;padding-top:0}
+.os-record-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.os-record p{font-size:.85rem;color:var(--ink-2);white-space:pre-wrap;overflow-wrap:anywhere}
+.os-record small{color:var(--mute);font-size:.74rem}
+.os-empty{padding:20px;border:1px dashed var(--line);border-radius:10px;color:var(--mute);font-size:.88rem}
+.os-status{display:inline-flex;align-items:center;border-radius:99px;padding:4px 9px;font-size:.7rem;font-weight:700}
+.os-status.open{background:var(--warn-soft);color:var(--warn)}
+.os-status.closed{background:var(--ok-soft);color:var(--ok)}
+.os-callout{padding:13px 15px;border-radius:10px;background:var(--bg-sunk);color:var(--ink-2);font-size:.84rem}
+.os-actions{display:flex;gap:8px;flex-wrap:wrap}
+.os-audit-day{display:grid;grid-template-columns:1fr auto;gap:8px;padding:9px 0;border-top:1px solid var(--line);align-items:center}
+.os-audit-day:first-child{border-top:0}
+@media(max-width:650px){.os-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.os-fields{grid-template-columns:1fr}.os-audit-row{grid-template-columns:1fr}.os-audit-row select{max-width:none}}
+@media(max-width:400px){.os-grid{grid-template-columns:1fr}}
+
 @media (max-width:540px){
   .brand-sub{display:none}
   .d-head,.blk{padding-inline:16px}
@@ -308,6 +363,11 @@ input:focus,textarea:focus{outline:3px solid var(--accent);outline-offset:0;bord
   <section class="hero" id="hero" aria-label="Khẩu hiệu"></section>
 
   <div class="shell">
+    <nav class="app-nav" aria-label="Khu vực ứng dụng">
+      <button class="nav-tab" type="button" data-act="section" data-section="race" aria-current="page">Đường đua</button>
+      <button class="nav-tab" type="button" data-act="section" data-section="personal" aria-current="false">Hiến chương cá nhân</button>
+    </nav>
+    <div id="raceArea">
     <p class="statline" id="statline"></p>
     <div class="board" id="board" data-view="list">
       <aside class="list-pane" id="listPane" aria-label="Danh sách mục tiêu"></aside>
@@ -321,6 +381,8 @@ input:focus,textarea:focus{outline:3px solid var(--accent);outline-offset:0;bord
         <div><h3>Mục đích</h3><p>Mỗi mục tiêu mang một lập luận: vì sao nó phải xong. Đó là thứ bạn đọc lại khi mệt.</p></div>
       </div>
     </section>
+    </div>
+    <section id="personalArea" class="os-wrap" aria-label="Hiến chương cá nhân" hidden></section>
   </div>
 </div>
 <div id="modal" class="modal" hidden></div>
@@ -945,6 +1007,7 @@ function renderAll(){
     ui.animList=false;ui.animDetail=false;
     requestAnimationFrame(function(){requestAnimationFrame(applyLive)});
   }
+  if(OS&&osUi.section==='personal')renderPersonalOS();
 }
 function applyLive(){
   var now=Date.now();
@@ -1062,10 +1125,175 @@ function deleteGoal(id){
   touch();renderHero(true);renderAll();
 }
 
+
+/* ---------- PERSONAL OS: dữ liệu riêng tư, tách khỏi gói đồng bộ Gist ---------- */
+var OS_KEY='duongdua.personal.v1';
+var OS_DEFAULT_RULES=[
+  {id:'R01',title:'Không chơi game',description:'Không chủ động tham gia trò chơi điện tử để giải trí.',active:true},
+  {id:'R02',title:'Không sử dụng thiết bị điện tử vô nghĩa',description:'Không lướt, xem hoặc tiêu thụ nội dung số khi không có mục đích rõ ràng.',active:true},
+  {id:'R03',title:'Chỉ dùng lập trình và thuật toán làm nguồn giải trí chủ động',description:'Trong thời gian giải trí trên thiết bị, lựa chọn lập trình, thuật toán và hoạt động sáng tạo thay vì tiêu thụ nội dung thụ động. Không áp dụng quy tắc này để loại bỏ nghỉ ngơi hoặc hoạt động lành mạnh ngoài thiết bị.',active:true}
+];
+var OS=null,osUi={section:'race',tab:'overview'};
+function osBlank(){return{v:1,createdAt:Date.now(),updatedAt:0,rules:OS_DEFAULT_RULES.map(function(r){return Object.assign({},r)}),audits:[],violations:[]}}
+function osNormalize(raw){
+  var d=osBlank();if(!raw||typeof raw!=='object')return d;
+  d.createdAt=Number(raw.createdAt)||d.createdAt;d.updatedAt=Number(raw.updatedAt)||0;
+  var rules=Array.isArray(raw.rules)?raw.rules:[];
+  d.rules=OS_DEFAULT_RULES.map(function(base){var x=rules.filter(function(r){return r&&r.id===base.id})[0]||{};return{id:base.id,title:String(x.title||base.title).slice(0,120),description:String(x.description||base.description).slice(0,300),active:x.active!==false}});
+  d.audits=(Array.isArray(raw.audits)?raw.audits:[]).filter(function(a){return a&&/^\d{4}-\d{2}-\d{2}$/.test(a.date)}).map(function(a){
+    var statuses={};d.rules.forEach(function(r){var v=a.statuses&&a.statuses[r.id];statuses[r.id]=['ok','breach','na'].indexOf(v)>=0?v:''});
+    return{id:String(a.id||uid()),date:String(a.date),at:Number(a.at)||Date.now(),updatedAt:Number(a.updatedAt)||Number(a.at)||Date.now(),statuses:statuses,note:String(a.note||'').slice(0,2000),revisions:Array.isArray(a.revisions)?a.revisions:[]};
+  });
+  d.violations=(Array.isArray(raw.violations)?raw.violations:[]).map(function(v){
+    if(!v||!d.rules.some(function(r){return r.id===v.ruleId}))return null;
+    return{id:String(v.id||uid()),ruleId:v.ruleId,level:Math.max(1,Math.min(4,Number(v.level)||1)),occurredAt:Number(v.occurredAt)||Date.now(),createdAt:Number(v.createdAt)||Date.now(),description:String(v.description||'').slice(0,3000),cause:String(v.cause||'').slice(0,3000),corrective:String(v.corrective||'').slice(0,3000),prevention:String(v.prevention||'').slice(0,3000),status:v.status==='closed'?'closed':'open',resolvedAt:v.resolvedAt?Number(v.resolvedAt):null,resolution:String(v.resolution||'').slice(0,2000),auditDate:String(v.auditDate||'')};
+  }).filter(Boolean);
+  return d;
+}
+function osLoad(){try{var raw=localStorage.getItem(OS_KEY);if(raw)return osNormalize(JSON.parse(raw))}catch(e){}return osBlank()}
+function osSave(){OS.updatedAt=Date.now();try{localStorage.setItem(OS_KEY,JSON.stringify(OS));return true}catch(e){toast('Không lưu được dữ liệu Personal OS. Hãy xuất bản sao lưu và kiểm tra dung lượng trình duyệt.');return false}}
+function osToday(){return dayKey(Date.now())}
+function osRule(id){return OS.rules.filter(function(r){return r.id===id})[0]||OS.rules[0]}
+function osAudit(date){return OS.audits.filter(function(a){return a.date===date})[0]||null}
+function osDateLabel(key){var a=key.split('-').map(Number);return pad(a[2])+'/'+pad(a[1])+'/'+a[0]}
+function osLevel(n){return({1:'Nhẹ',2:'Có chủ đích',3:'Nghiêm trọng',4:'Đặc biệt'})[n]||'Nhẹ'}
+function osSetSection(section){osUi.section=section;$('#raceArea').hidden=section!=='race';$('#personalArea').hidden=section!=='personal';var syncButton=$('#sync');if(syncButton)syncButton.hidden=section==='personal';$$('[data-act="section"]').forEach(function(b){b.setAttribute('aria-current',b.dataset.section===section?'page':'false')});if(section==='personal')renderPersonalOS()}
+function osSetTab(tab){osUi.tab=tab;renderPersonalOS()}
+function osExport(){
+  var blob=new Blob([JSON.stringify({app:'duong-dua-personal-os',version:1,exportedAt:new Date().toISOString(),data:OS},null,2)],{type:'application/json'});
+  var url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='duong-dua-personal-os-'+osToday()+'.json';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);toast('Đã xuất bản sao lưu Personal OS.');
+}
+function osImportFile(file){
+  if(!file)return;
+  if(file.size>5*1024*1024){toast('Tệp sao lưu lớn hơn 5 MB nên không được nhập.');return}
+  var reader=new FileReader();
+  reader.onload=function(){
+    try{
+      var payload=JSON.parse(String(reader.result||''));
+      if(!payload||payload.app!=='duong-dua-personal-os'||!payload.data)throw new Error('bad backup');
+      var incoming=osNormalize(payload.data),auditMap={};
+      OS.audits.forEach(function(a){auditMap[a.date]=a});
+      incoming.audits.forEach(function(inc){
+        var cur=auditMap[inc.date];
+        if(!cur){OS.audits.push(inc);auditMap[inc.date]=inc;return}
+        var revisions=(cur.revisions||[]).concat(inc.revisions||[]);
+        if(Number(inc.updatedAt||inc.at)>Number(cur.updatedAt||cur.at)){
+          revisions.push({at:cur.updatedAt||cur.at,statuses:Object.assign({},cur.statuses),note:cur.note});
+          cur.statuses=inc.statuses;cur.note=inc.note;cur.at=inc.at;cur.updatedAt=inc.updatedAt;
+        }else if(Number(inc.updatedAt||inc.at)<Number(cur.updatedAt||cur.at)){
+          revisions.push({at:inc.updatedAt||inc.at,statuses:Object.assign({},inc.statuses),note:inc.note});
+        }
+        cur.revisions=revisions;
+      });
+      var viMap={};OS.violations.forEach(function(v){viMap[v.id]=v});
+      incoming.violations.forEach(function(v){
+        var cur=viMap[v.id];
+        if(!cur){OS.violations.push(v);viMap[v.id]=v;return}
+        if(v.status==='closed'&&cur.status!=='closed'){cur.status='closed';cur.resolvedAt=v.resolvedAt;cur.resolution=v.resolution}
+      });
+      OS.audits.sort(function(a,b){return a.date.localeCompare(b.date)});
+      osSave();renderPersonalOS();toast('Đã nhập và hợp nhất bản sao lưu. Lịch sử hiện có được giữ lại.');
+    }catch(e){toast('Tệp không đúng định dạng sao lưu Personal OS. Dữ liệu hiện tại không bị thay đổi.')}
+  };
+  reader.onerror=function(){toast('Không đọc được tệp sao lưu.')};
+  reader.readAsText(file);
+}
+function osAuditView(){
+  var today=osToday(),a=osAudit(today),html='';
+  html+='<div class="os-head"><div><p class="os-eyebrow">Personal OS / Daily audit</p><h2 class="os-title">Kiểm toán hằng ngày</h2><p class="os-sub">Đánh giá trung thực những gì đã xảy ra hôm nay. Một mục vi phạm cần được ghi nhận thành hồ sơ riêng.</p></div><span class="os-tag">'+osDateLabel(today)+'</span></div>';
+  html+='<form class="os-card os-form" data-form="os-audit"><div class="os-card-head"><h3>Đánh giá nguyên tắc</h3><span class="os-tag">'+(a?'Đã có bản ghi hôm nay':'Chưa kiểm toán')+'</span></div><div class="os-card-body">';
+  OS.rules.filter(function(r){return r.active}).forEach(function(r){var v=a&&a.statuses?a.statuses[r.id]:'';html+='<div class="os-audit-row"><div><b>'+esc(r.id)+' · '+esc(r.title)+'</b><small>'+esc(r.description)+'</small></div><select name="'+r.id+'" required aria-label="Trạng thái '+esc(r.title)+'"><option value="">Chọn trạng thái</option><option value="ok"'+(v==='ok'?' selected':'')+'>Tuân thủ</option><option value="breach"'+(v==='breach'?' selected':'')+'>Có vi phạm</option><option value="na"'+(v==='na'?' selected':'')+'>Không phát sinh tình huống</option></select></div>'});
+  html+='<div class="os-field"><label for="os-audit-note">Ghi chú cuối ngày</label><textarea id="os-audit-note" name="note" maxlength="2000" placeholder="Điều gì đáng chú ý hôm nay? Điều gì cần điều chỉnh?">'+esc(a?a.note:'')+'</textarea></div>';
+  html+='<div class="os-actions"><button class="btn primary" type="submit">'+(a?'Cập nhật kiểm toán hôm nay':'Lưu kiểm toán hôm nay')+'</button><button class="btn" type="button" data-act="os-export">Xuất dữ liệu</button></div>';
+  if(a&&a.revisions&&a.revisions.length)html+='<p class="hint">Bản ghi đã được chỉnh sửa '+a.revisions.length+' lần. Lịch sử phiên bản cũ vẫn được giữ.</p>';
+  html+='</div></form>';
+  var history=OS.audits.filter(function(x){return x.date!==today}).sort(function(x,y){return y.date.localeCompare(x.date)}).slice(0,7);
+  html+='<div class="os-card"><div class="os-card-head"><h3>Lịch sử kiểm toán</h3><span class="os-tag">'+OS.audits.length+' ngày đã ghi</span></div><div class="os-card-body">'+(history.length?history.map(function(x){var bad=OS.rules.filter(function(r){return x.statuses[r.id]==='breach'}).length;return '<div class="os-audit-day"><div><b>'+osDateLabel(x.date)+'</b><br><small class="hint">Cập nhật '+fmtDateTime(x.updatedAt||x.at)+'</small></div><span class="os-status '+(bad?'open':'closed')+'">'+(bad?bad+' mục vi phạm':'Đã kiểm toán')+'</span></div>'}).join(''):'<div class="os-empty">Lịch sử các ngày trước sẽ xuất hiện tại đây.</div>')+'</div></div>';
+  if(a){var breaches=OS.rules.filter(function(r){return a.statuses[r.id]==='breach'});if(breaches.length){html+='<div class="os-card"><div class="os-card-head"><h3>Cần lập biên bản</h3><span class="os-status open">'+breaches.length+' mục đánh dấu vi phạm</span></div><div class="os-card-body">';breaches.forEach(function(r){var exists=OS.violations.some(function(v){return v.auditDate===today&&v.ruleId===r.id});html+='<div class="os-rule"><div><h4>'+esc(r.title)+'</h4><p>'+(exists?'Đã có hồ sơ liên kết với kiểm toán hôm nay.':'Kiểm toán ghi nhận có vi phạm nhưng chưa có biên bản.')+'</p></div>'+(exists?'<span class="os-status closed">Đã ghi hồ sơ</span>':'<button class="btn sm" type="button" data-act="os-new-violation" data-rule="'+r.id+'" data-date="'+today+'">Lập biên bản</button>')+'</div>'});html+='</div></div>'}}
+  return html;
+}
+function osViolationForm(ruleId,auditDate){
+  var rule=osRule(ruleId||'R01');
+  var html='<form data-form="os-violation" data-audit="'+esc(auditDate||'')+'"><h2 id="m-title">Biên bản vi phạm</h2><p class="lead">Ghi nhận sự kiện trung thực. Hồ sơ không bị xóa khi đã lưu.</p>';
+  html+='<div class="os-fields"><div class="os-field"><label for="os-v-rule">Nguyên tắc</label><select id="os-v-rule" name="ruleId">'+OS.rules.map(function(r){return '<option value="'+r.id+'"'+(r.id===rule.id?' selected':'')+'>'+esc(r.id+' · '+r.title)+'</option>'}).join('')+'</select></div>';
+  html+='<div class="os-field"><label for="os-v-level">Cấp độ</label><select id="os-v-level" name="level"><option value="1">Cấp 1 · Nhẹ</option><option value="2" selected>Cấp 2 · Có chủ đích</option><option value="3">Cấp 3 · Nghiêm trọng</option><option value="4">Cấp 4 · Đặc biệt</option></select></div>';
+  html+='<div class="os-field full"><label for="os-v-description">Mô tả sự kiện</label><textarea id="os-v-description" name="description" required maxlength="3000" placeholder="Điều gì đã xảy ra? Khi nào, trong hoàn cảnh nào?"></textarea></div>';
+  html+='<div class="os-field full"><label for="os-v-cause">Nguyên nhân</label><textarea id="os-v-cause" name="cause" required maxlength="3000" placeholder="Nguyên nhân trực tiếp và nguyên nhân gốc..."></textarea></div>';
+  html+='<div class="os-field full"><label for="os-v-corrective">Biện pháp khắc phục</label><textarea id="os-v-corrective" name="corrective" required maxlength="3000" placeholder="Hành động cụ thể để xử lý nguyên nhân..."></textarea></div>';
+  html+='<div class="os-field full"><label for="os-v-prevention">Biện pháp phòng ngừa</label><textarea id="os-v-prevention" name="prevention" required maxlength="3000" placeholder="Thay đổi môi trường hoặc quy trình như thế nào?"></textarea></div></div>';
+  html+='<div class="m-actions"><button class="btn" type="button" data-act="close">Hủy</button><button class="btn primary" type="submit">Lưu hồ sơ</button></div></form>';
+  openModal(html);
+}
+function osResolveForm(id){
+  var v=OS.violations.filter(function(x){return x.id===id})[0];if(!v)return;
+  openModal('<form data-form="os-resolve" data-id="'+esc(id)+'"><h2 id="m-title">Xác nhận khắc phục</h2><p class="lead">Chỉ đóng hồ sơ sau khi bạn đã thực hiện biện pháp đã cam kết.</p><div class="os-field"><label for="os-resolution">Kết quả thực hiện</label><textarea id="os-resolution" name="resolution" required maxlength="2000" placeholder="Tôi đã thực hiện biện pháp nào? Kết quả ra sao?"></textarea></div><div class="m-actions"><button class="btn" type="button" data-act="close">Để sau</button><button class="btn primary" type="submit">Xác nhận hoàn tất</button></div></form>');
+}
+function osOverview(){
+  var today=osToday(),a=osAudit(today),open=OS.violations.filter(function(v){return v.status==='open'}).length,breaches=OS.violations.length;
+  var html='<div class="os-head"><div><p class="os-eyebrow">Race Track / Personal OS</p><h2 class="os-title">Quản trị bản thân</h2><p class="os-sub">Hiến chương đặt ra nguyên tắc. Kiểm toán ghi nhận hành vi. Biên bản biến sai lệch thành hành động khắc phục.</p></div><div class="os-actions"><button class="btn" data-act="os-export">Xuất bản sao lưu</button><button class="btn" data-act="os-import">Nhập bản sao lưu</button><button class="btn primary" data-act="os-new-violation">+ Ghi vi phạm</button></div></div>';
+  html+='<div class="os-local"><span aria-hidden="true">ⓘ</span><span><b>Dữ liệu Personal OS hiện chỉ lưu trên thiết bị này.</b> Dữ liệu kỷ luật không được gửi vào Gist đồng bộ cũ. Hãy xuất bản sao lưu định kỳ; xóa dữ liệu trình duyệt có thể làm mất hồ sơ.</span></div>';
+  html+='<div class="os-grid"><div class="os-metric"><small>Nguyên tắc hiệu lực</small><strong>'+OS.rules.filter(function(r){return r.active}).length+'</strong></div><div class="os-metric"><small>Hồ sơ vi phạm</small><strong>'+breaches+'</strong></div><div class="os-metric"><small>Chưa khắc phục</small><strong>'+open+'</strong></div></div>';
+  html+='<div class="os-tabs" role="group" aria-label="Phân hệ Personal OS">'+[['overview','Tổng quan'],['constitution','Hiến chương'],['audit','Kiểm toán'],['violations','Hồ sơ vi phạm']].map(function(x){return '<button type="button" class="os-tab" data-act="os-tab" data-tab="'+x[0]+'" aria-pressed="'+(osUi.tab===x[0])+'">'+x[1]+'</button>'}).join('')+'</div>';
+  html+='<div class="os-card"><div class="os-card-head"><h3>Kiểm toán hôm nay · '+osDateLabel(today)+'</h3><span class="os-tag">'+(a?'Đã ghi nhận':'Đang chờ')+'</span></div><div class="os-card-body">'+(a?'<p class="os-callout">'+(OS.rules.filter(function(r){return a.statuses[r.id]==='breach'}).length?'Có nguyên tắc được đánh dấu vi phạm. Hãy lập biên bản để phân tích và khắc phục.':'Đã có bản ghi kiểm toán hôm nay. Hãy xem lại trước khi kết thúc ngày.')+'</p>':'<p class="os-callout">Bạn chưa thực hiện kiểm toán hôm nay. Dành 5–10 phút để đánh giá trung thực.</p>')+'<div class="os-actions"><button class="btn primary" data-act="os-tab" data-tab="audit">'+(a?'Xem kiểm toán':'Bắt đầu kiểm toán')+'</button><button class="btn" data-act="os-tab" data-tab="constitution">Xem hiến chương</button></div></div></div>';
+  var latest=OS.violations.slice().sort(function(x,y){return y.createdAt-x.createdAt}).slice(0,3);
+  html+='<div class="os-card"><div class="os-card-head"><h3>Hồ sơ gần đây</h3><button class="link" data-act="os-tab" data-tab="violations">Xem tất cả</button></div><div class="os-card-body">'+(latest.length?latest.map(function(v){return osViolationCard(v)}).join(''):'<div class="os-empty">Chưa có hồ sơ vi phạm. Đây là nhật ký ghi nhận, không phải mục tiêu để đạt số 0 bằng mọi giá.</div>')+'</div></div>';
+  return html;
+}
+function osConstitution(){
+  var html='<div class="os-head"><div><p class="os-eyebrow">Personal OS / Constitution</p><h2 class="os-title">Hiến chương cá nhân</h2><p class="os-sub">Ba nguyên tắc đang được đưa vào hệ thống. Việc nghỉ ngơi, vận động, giao tiếp và giải trí lành mạnh không bị xem là vi phạm.</p></div><span class="os-tag">Phiên bản 1.0</span></div>';
+  html+='<div class="os-card"><div class="os-card-head"><h3>Nguyên tắc đang áp dụng</h3><span class="os-tag">'+OS.rules.filter(function(r){return r.active}).length+' hiệu lực</span></div><div class="os-card-body">'+OS.rules.map(function(r){return '<div class="os-rule"><div><h4>'+esc(r.id)+' · '+esc(r.title)+'</h4><p>'+esc(r.description)+'</p></div><span class="os-tag">'+(r.active?'Đang áp dụng':'Tạm ngưng')+'</span></div>'}).join('')+'</div></div>';
+  html+='<div class="os-card"><div class="os-card-head"><h3>Nguyên tắc tối cao</h3></div><div class="os-card-body"><p class="os-callout"><b>Kỷ luật phải phục vụ cuộc sống, không phải cuộc sống phục vụ kỷ luật.</b><br>Không cắt giảm giấc ngủ, bỏ bữa, tập luyện quá mức hoặc cô lập bản thân để duy trì quy tắc. Khi quy tắc không còn phù hợp, xem xét sửa đổi thay vì gây tổn hại cho bản thân.</p><p class="hint">Trong bản đầu tiên, nội dung hiến chương được giữ cố định để tránh sửa nhầm. Chức năng chỉnh sửa có thể được bổ sung sau.</p></div></div>';
+  return html;
+}
+function osViolationCard(v){
+  var r=osRule(v.ruleId);return '<article class="os-record"><div class="os-record-top"><div><b>'+esc(r.id)+' · '+esc(r.title)+'</b><br><small>'+fmtDateTime(v.occurredAt)+' · Cấp '+v.level+' – '+osLevel(v.level)+'</small></div><span class="os-status '+(v.status==='closed'?'closed':'open')+'">'+(v.status==='closed'?'Đã khắc phục':'Đang xử lý')+'</span></div><p>'+esc(v.description)+'</p><details><summary class="hint">Xem phân tích và biện pháp</summary><p><b>Nguyên nhân:</b> '+esc(v.cause)+'</p><p><b>Khắc phục:</b> '+esc(v.corrective)+'</p><p><b>Phòng ngừa:</b> '+esc(v.prevention)+'</p>'+(v.resolution?'<p><b>Kết quả:</b> '+esc(v.resolution)+'</p>':'')+'</details>'+(v.status==='open'?'<div class="os-actions"><button class="btn sm" data-act="os-resolve" data-id="'+esc(v.id)+'">Ghi nhận đã khắc phục</button></div>':'<small>Đóng hồ sơ: '+fmtDateTime(v.resolvedAt)+'</small>')+'</article>';
+}
+function osViolations(){
+  var html='<div class="os-head"><div><p class="os-eyebrow">Personal OS / Accountability</p><h2 class="os-title">Hồ sơ vi phạm</h2><p class="os-sub">Lịch sử được lưu giữ, không xóa. Mỗi hồ sơ cần mô tả, nguyên nhân, biện pháp khắc phục và phòng ngừa.</p></div><div class="os-actions"><button class="btn" data-act="os-export">Xuất sao lưu</button><button class="btn primary" data-act="os-new-violation">+ Ghi vi phạm</button></div></div>';
+  var all=OS.violations.slice().sort(function(x,y){return y.createdAt-x.createdAt});
+  html+='<div class="os-card"><div class="os-card-head"><h3>Toàn bộ lịch sử</h3><span class="os-tag">'+all.length+' hồ sơ</span></div><div class="os-card-body">'+(all.length?all.map(osViolationCard).join(''):'<div class="os-empty">Chưa có hồ sơ nào. Không cần tạo vi phạm giả để thử nghiệm; có thể dùng dữ liệu mẫu trong môi trường thử riêng khi cần.</div>')+'</div></div>';
+  return html;
+}
+function renderPersonalOS(){
+  var el=$('#personalArea');if(!el||!OS)return;
+  var tabs=[['overview','Tổng quan'],['constitution','Hiến chương'],['audit','Kiểm toán'],['violations','Hồ sơ vi phạm']];
+  var inner=osUi.tab==='audit'?osAuditView():osUi.tab==='constitution'?osConstitution():osUi.tab==='violations'?osViolations():osOverview();
+  // Các tab phụ vẫn có thanh chuyển nhanh ở đầu.
+  if(osUi.tab!=='overview')inner='<div class="os-tabs" role="group" aria-label="Điều hướng Personal OS">'+tabs.map(function(x){return '<button type="button" class="os-tab" data-act="os-tab" data-tab="'+x[0]+'" aria-pressed="'+(osUi.tab===x[0])+'">'+x[1]+'</button>'}).join('')+'</div>'+inner;
+  el.innerHTML='<input id="os-import-file" type="file" accept="application/json,.json" hidden>'+inner;
+}
+function osSaveAudit(form){
+  var date=osToday(),statuses={};OS.rules.filter(function(r){return r.active}).forEach(function(r){var field=form.elements[r.id];if(field)statuses[r.id]=field.value});
+  if(OS.rules.some(function(r){return r.active&&!statuses[r.id]})){toast('Hãy chọn trạng thái cho tất cả nguyên tắc.');return}
+  var note=form.elements.note.value.trim(),old=osAudit(date),now=Date.now();
+  if(old){old.revisions.push({at:now,statuses:Object.assign({},old.statuses),note:old.note});old.statuses=statuses;old.note=note;old.updatedAt=now;}
+  else OS.audits.push({id:uid(),date:date,at:now,updatedAt:now,statuses:statuses,note:note,revisions:[]});
+  osSave();renderPersonalOS();
+  var breached=OS.rules.filter(function(r){return statuses[r.id]==='breach'});
+  toast(breached.length?'Đã lưu. Hãy lập biên bản cho mục được đánh dấu vi phạm.':'Đã lưu kiểm toán hôm nay.');
+}
+function osCreateViolation(form){
+  var ruleId=form.elements.ruleId.value,rule=osRule(ruleId),description=form.elements.description.value.trim(),cause=form.elements.cause.value.trim(),corrective=form.elements.corrective.value.trim(),prevention=form.elements.prevention.value.trim();
+  if(!description||!cause||!corrective||!prevention){toast('Hãy điền đầy đủ mô tả, nguyên nhân và biện pháp.');return}
+  var now=Date.now();OS.violations.push({id:uid(),ruleId:rule.id,level:Number(form.elements.level.value)||2,occurredAt:now,createdAt:now,description:description,cause:cause,corrective:corrective,prevention:prevention,status:'open',resolvedAt:null,resolution:'',auditDate:form.dataset.audit||''});
+  osSave();closeModal();osUi.tab='violations';renderPersonalOS();toast('Đã lưu hồ sơ. Hồ sơ không thể bị xóa khỏi lịch sử.');
+}
+function osCompleteViolation(form){
+  var v=OS.violations.filter(function(x){return x.id===form.dataset.id})[0];if(!v)return;
+  var resolution=form.elements.resolution.value.trim();if(!resolution){toast('Hãy ghi lại kết quả thực hiện.');return}
+  v.status='closed';v.resolvedAt=Date.now();v.resolution=resolution;osSave();closeModal();renderPersonalOS();toast('Đã ghi nhận hoàn tất khắc phục.');
+}
+
 document.addEventListener('click',function(e){
   var t=e.target.closest('[data-act]');if(!t)return;
   var act=t.dataset.act,id=t.dataset.id,g=id?byId(id):null;
   switch(act){
+    case 'section':osSetSection(t.dataset.section);break;
+    case 'os-tab':osSetTab(t.dataset.tab);break;
+    case 'os-export':osExport();break;
+    case 'os-import':var osFile=$('#os-import-file');if(osFile)osFile.click();break;
+    case 'os-new-violation':osViolationForm(t.dataset.rule||'R01',t.dataset.date||'');break;
+    case 'os-resolve':osResolveForm(id);break;
     case 'open':selectGoal(id,true);break;
     case 'back':ui.view='list';renderAll();break;
     case 'tab':ui.tab=t.dataset.tab;ui.sel=null;ui.view='list';ui.animDetail=true;renderAll();break;
@@ -1102,12 +1330,16 @@ document.addEventListener('click',function(e){
 document.addEventListener('change',function(e){
   var t=e.target;
   if(t&&t.id==='imp-file'&&t.files&&t.files[0]){importFile(t.files[0]);t.value=''}
+  else if(t&&t.id==='os-import-file'&&t.files&&t.files[0]){osImportFile(t.files[0]);t.value=''}
 });
 
 document.addEventListener('submit',function(e){
   e.preventDefault();
   var f=e.target,kind=f.dataset.form,id=f.dataset.id,g=id?byId(id):null;
-  if(kind==='step'&&g){
+  if(kind==='os-audit'){osSaveAudit(f)}
+  else if(kind==='os-violation'){osCreateViolation(f)}
+  else if(kind==='os-resolve'){osCompleteViolation(f)}
+  else if(kind==='step'&&g){
     var tx=$('#in-step').value.trim();if(!tx)return;
     g.steps.push({id:uid(),text:tx,done:false,doneAt:null});
     ui.drafts.step='';touch();renderAll();
@@ -1198,6 +1430,7 @@ window.addEventListener('online',function(){if(cloud.cfg)syncNow()});
 /* ---------- khởi động ---------- */
 S=loadLocal();
 if(!S){S=seed();ui.firstRun=true}
+OS=osLoad();
 resetSigs();
 ensureSelection();
 if(ui.firstRun){ui.heroCtx=heroCtx();ui.slogan='Thiên phú không thể bị mất đi.';renderHero(true,ui.slogan)}

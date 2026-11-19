@@ -1,7 +1,7 @@
 /* Service worker của Đường Đua: giúp app mở được khi mất mạng.
    Trang chính lấy từ mạng trước (để bản mới đến ngay khi bạn tải lại), mất mạng thì dùng bản đã lưu.
    Các lệnh gọi tới api.github.com không đi qua đây. */
-const CACHE = 'duong-dua-v1';
+const CACHE = 'duong-dua-v2';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './favicon.svg', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', (e) => {

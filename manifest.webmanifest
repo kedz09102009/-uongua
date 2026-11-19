@@ -1,7 +1,7 @@
 {
   "name": "Đường Đua",
   "short_name": "Đường Đua",
-  "description": "Đặt mục tiêu và hạn chót, chạy đua với chính mình.",
+  "description": "Quản lý mục tiêu, hiến chương cá nhân và tiến trình phát triển.",
   "lang": "vi",
   "start_url": "./",
   "scope": "./",

@@ -37,7 +37,7 @@ Web app chạy đua với chính mình: đặt mục tiêu và hạn chót, ghi 
 
 ## Phần 3. Đồng bộ giữa các thiết bị
 
-Mặc định, dữ liệu nằm trong trình duyệt của từng thiết bị. Để điện thoại và máy tính dùng chung một dữ liệu, app lưu một bản vào **Gist bí mật** trong tài khoản GitHub của bạn. Bạn cần một **token** để app được phép ghi vào Gist đó.
+Mặc định, dữ liệu nằm trong trình duyệt của từng thiết bị. Để điện thoại và máy tính dùng chung dữ liệu **Đường đua (mục tiêu, bước tiến và khẩu hiệu)**, app lưu một bản vào **Gist bí mật** trong tài khoản GitHub của bạn. Personal OS hiện được lưu riêng trên từng thiết bị và chưa đồng bộ qua Gist. Bạn cần một **token** để app được phép ghi vào Gist đó.
 
 **Tạo token (làm một lần cho mỗi thiết bị):**
 
@@ -85,3 +85,49 @@ Tải tệp mới lên repository: **Add file**, **Upload files**, kéo thả đ
 | Hai thiết bị không thấy dữ liệu của nhau | Kiểm tra cả hai dùng cùng một tài khoản GitHub, rồi bấm **Đồng bộ ngay** |
 | "GitHub tạm giới hạn số lần gọi" | Chờ vài phút, app tự thử lại |
 | Chữ hiện bằng phông hệ thống | App tải phông từ Google Fonts. Khi mất mạng lần đầu mở, nó dùng phông có sẵn của máy, không ảnh hưởng chức năng |
+
+## Personal OS (bản tích hợp đầu tiên)
+
+Ứng dụng có thêm khu vực **Hiến chương cá nhân**, gồm:
+
+- Ba nguyên tắc ban đầu: không chơi game; không sử dụng thiết bị điện tử vô nghĩa; ưu tiên lập trình và thuật toán trong giải trí chủ động.
+- Kiểm toán hằng ngày theo từng nguyên tắc.
+- Biên bản vi phạm với cấp độ, mô tả, nguyên nhân, biện pháp khắc phục và phòng ngừa.
+- Đóng hồ sơ sau khi ghi nhận kết quả khắc phục.
+- Lịch sử kiểm toán và vi phạm được giữ lại; chỉnh sửa kiểm toán cùng ngày tạo bản ghi phiên bản trước.
+- Xuất dữ liệu Personal OS thành tệp JSON và nhập lại bằng cơ chế hợp nhất, không xóa hồ sơ đang có.
+
+### Ranh giới dữ liệu và quyền riêng tư
+
+Personal OS trong bản này lưu riêng ở `localStorage` với khóa `duongdua.personal.v1`. Dữ liệu đó **không được đưa vào Gist đồng bộ mục tiêu hiện có**. Điều này tránh gửi nhật ký kỷ luật riêng tư vào cơ chế Gist cũ.
+
+Tuy nhiên, dữ liệu Personal OS hiện chỉ nằm trên trình duyệt/thiết bị đang dùng. Nếu xóa dữ liệu trang web, đổi trình duyệt hoặc mất thiết bị, hồ sơ có thể mất. Hãy dùng **Xuất bản sao lưu** định kỳ và cất tệp JSON ở nơi an toàn. Chưa có đồng bộ đám mây đa thiết bị cho Personal OS trong phiên bản này.
+
+Hồ sơ không có chức năng xóa trong giao diện để bảo toàn lịch sử; đính chính hoặc hoàn tất được ghi nhận bổ sung. Đây là cơ chế lưu trữ ở phía ứng dụng, không phải kho lưu trữ bất biến chống chỉnh sửa ở cấp máy chủ.
+
+### Phạm vi bản phát hành
+
+Đây là bản MVP tích hợp Personal OS vào ứng dụng Đường Đua hiện có. XP, cấp độ và bảng xếp hạng nhiều người chưa được thêm trong bản này. Nên triển khai máy chủ và xác thực trước khi cấp XP dùng chung hoặc đồng bộ dữ liệu cá nhân giữa nhiều thiết bị.
+
+## Personal OS (bản tích hợp đầu tiên)
+
+Ứng dụng có thêm khu vực **Hiến chương cá nhân**, gồm:
+
+- Ba nguyên tắc ban đầu: không chơi game; không sử dụng thiết bị điện tử vô nghĩa; ưu tiên lập trình và thuật toán trong giải trí chủ động.
+- Kiểm toán hằng ngày theo từng nguyên tắc.
+- Biên bản vi phạm với cấp độ, mô tả, nguyên nhân, biện pháp khắc phục và phòng ngừa.
+- Đóng hồ sơ sau khi ghi nhận kết quả khắc phục.
+- Lịch sử kiểm toán và vi phạm được giữ lại; chỉnh sửa kiểm toán cùng ngày tạo bản ghi phiên bản trước.
+- Xuất dữ liệu Personal OS thành tệp JSON và nhập lại bằng cơ chế hợp nhất, không xóa hồ sơ đang có.
+
+### Ranh giới dữ liệu và quyền riêng tư
+
+Personal OS trong bản này lưu riêng ở `localStorage` với khóa `duongdua.personal.v1`. Dữ liệu đó **không được đưa vào Gist đồng bộ mục tiêu hiện có**. Điều này tránh gửi nhật ký kỷ luật riêng tư vào cơ chế Gist cũ.
+
+Tuy nhiên, dữ liệu Personal OS hiện chỉ nằm trên trình duyệt/thiết bị đang dùng. Nếu xóa dữ liệu trang web, đổi trình duyệt hoặc mất thiết bị, hồ sơ có thể mất. Hãy dùng **Xuất bản sao lưu** định kỳ và cất tệp JSON ở nơi an toàn. Chưa có đồng bộ đám mây đa thiết bị cho Personal OS trong phiên bản này.
+
+Hồ sơ không có chức năng xóa trong giao diện để bảo toàn lịch sử; đính chính hoặc hoàn tất được ghi nhận bổ sung. Đây là cơ chế lưu trữ ở phía ứng dụng, không phải kho lưu trữ bất biến chống chỉnh sửa ở cấp máy chủ.
+
+### Phạm vi bản phát hành
+
+Đây là bản MVP tích hợp Personal OS vào ứng dụng Đường Đua hiện có. XP, cấp độ và bảng xếp hạng nhiều người chưa được thêm trong bản này. Nên triển khai máy chủ và xác thực trước khi cấp XP dùng chung hoặc đồng bộ dữ liệu cá nhân giữa nhiều thiết bị.
