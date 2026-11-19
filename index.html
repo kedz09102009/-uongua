@@ -1134,26 +1134,57 @@ var OS_DEFAULT_RULES=[
   {id:'R03',title:'Chỉ dùng lập trình và thuật toán làm nguồn giải trí chủ động',description:'Trong thời gian giải trí trên thiết bị, lựa chọn lập trình, thuật toán và hoạt động sáng tạo thay vì tiêu thụ nội dung thụ động. Không áp dụng quy tắc này để loại bỏ nghỉ ngơi hoặc hoạt động lành mạnh ngoài thiết bị.',active:true}
 ];
 var OS=null,osUi={section:'race',tab:'overview'};
-function osBlank(){return{v:1,createdAt:Date.now(),updatedAt:0,rules:OS_DEFAULT_RULES.map(function(r){return Object.assign({},r)}),audits:[],violations:[]}}
+function osBlank(){return{v:2,createdAt:Date.now(),updatedAt:0,rules:OS_DEFAULT_RULES.map(function(r){return Object.assign({createdAt:Date.now(),updatedAt:0,revisions:[]},r)}),audits:[],violations:[]}}
+function osCleanRule(x,base){
+  x=x||{};base=base||{};
+  return{id:String(x.id||base.id||''),title:String(x.title||base.title||'Nguyên tắc chưa đặt tên').slice(0,120),description:String(x.description||base.description||'').slice(0,500),active:x.active!==false,createdAt:Number(x.createdAt)||Date.now(),updatedAt:Number(x.updatedAt)||0,revisions:Array.isArray(x.revisions)?x.revisions.map(function(r){return{at:Number(r.at)||Date.now(),title:String(r.title||'').slice(0,120),description:String(r.description||'').slice(0,500),active:r.active!==false}}).slice(-100):[]};
+}
 function osNormalize(raw){
   var d=osBlank();if(!raw||typeof raw!=='object')return d;
   d.createdAt=Number(raw.createdAt)||d.createdAt;d.updatedAt=Number(raw.updatedAt)||0;
-  var rules=Array.isArray(raw.rules)?raw.rules:[];
-  d.rules=OS_DEFAULT_RULES.map(function(base){var x=rules.filter(function(r){return r&&r.id===base.id})[0]||{};return{id:base.id,title:String(x.title||base.title).slice(0,120),description:String(x.description||base.description).slice(0,300),active:x.active!==false}});
+  var rules=Array.isArray(raw.rules)?raw.rules:[],seen={};
+  d.rules=OS_DEFAULT_RULES.map(function(base){var x=rules.filter(function(r){return r&&r.id===base.id})[0]||base;seen[base.id]=true;return osCleanRule(x,base)});
+  rules.forEach(function(x){
+    if(!x||typeof x.id!=='string'||seen[x.id]||! /^[A-Za-z][A-Za-z0-9_-]{0,23}$/.test(x.id))return;
+    seen[x.id]=true;d.rules.push(osCleanRule(x));
+  });
   d.audits=(Array.isArray(raw.audits)?raw.audits:[]).filter(function(a){return a&&/^\d{4}-\d{2}-\d{2}$/.test(a.date)}).map(function(a){
-    var statuses={};d.rules.forEach(function(r){var v=a.statuses&&a.statuses[r.id];statuses[r.id]=['ok','breach','na'].indexOf(v)>=0?v:''});
-    return{id:String(a.id||uid()),date:String(a.date),at:Number(a.at)||Date.now(),updatedAt:Number(a.updatedAt)||Number(a.at)||Date.now(),statuses:statuses,note:String(a.note||'').slice(0,2000),revisions:Array.isArray(a.revisions)?a.revisions:[]};
+    var statuses={};Object.keys(a.statuses&&typeof a.statuses==='object'?a.statuses:{}).forEach(function(k){var v=a.statuses[k];if(/^[A-Za-z][A-Za-z0-9_-]{0,23}$/.test(k)&&['ok','breach','na'].indexOf(v)>=0)statuses[k]=v});
+    return{id:String(a.id||uid()),date:String(a.date),at:Number(a.at)||Date.now(),updatedAt:Number(a.updatedAt)||Number(a.at)||Date.now(),statuses:statuses,note:String(a.note||'').slice(0,2000),ruleSnapshots:Array.isArray(a.ruleSnapshots)?a.ruleSnapshots:[],revisions:Array.isArray(a.revisions)?a.revisions:[]};
   });
   d.violations=(Array.isArray(raw.violations)?raw.violations:[]).map(function(v){
-    if(!v||!d.rules.some(function(r){return r.id===v.ruleId}))return null;
-    return{id:String(v.id||uid()),ruleId:v.ruleId,level:Math.max(1,Math.min(4,Number(v.level)||1)),occurredAt:Number(v.occurredAt)||Date.now(),createdAt:Number(v.createdAt)||Date.now(),description:String(v.description||'').slice(0,3000),cause:String(v.cause||'').slice(0,3000),corrective:String(v.corrective||'').slice(0,3000),prevention:String(v.prevention||'').slice(0,3000),status:v.status==='closed'?'closed':'open',resolvedAt:v.resolvedAt?Number(v.resolvedAt):null,resolution:String(v.resolution||'').slice(0,2000),auditDate:String(v.auditDate||'')};
+    if(!v||typeof v.ruleId!=='string'||!v.ruleId)return null;
+    if(!d.rules.some(function(r){return r.id===v.ruleId}))d.rules.push({id:v.ruleId,title:String(v.ruleTitle||'Nguyên tắc lưu trữ').slice(0,120),description:'Nguyên tắc được giữ lại để bảo toàn hồ sơ lịch sử.',active:false,createdAt:Number(v.createdAt)||Date.now(),updatedAt:0,revisions:[]});
+    var found=d.rules.filter(function(r){return r.id===v.ruleId})[0];
+    return{id:String(v.id||uid()),ruleId:v.ruleId,ruleTitle:String(v.ruleTitle||found.title).slice(0,120),level:Math.max(1,Math.min(4,Number(v.level)||1)),occurredAt:Number(v.occurredAt)||Date.now(),createdAt:Number(v.createdAt)||Date.now(),description:String(v.description||'').slice(0,3000),cause:String(v.cause||'').slice(0,3000),corrective:String(v.corrective||'').slice(0,3000),prevention:String(v.prevention||'').slice(0,3000),status:v.status==='closed'?'closed':'open',resolvedAt:v.resolvedAt?Number(v.resolvedAt):null,resolution:String(v.resolution||'').slice(0,2000),auditDate:String(v.auditDate||'')};
   }).filter(Boolean);
   return d;
 }
 function osLoad(){try{var raw=localStorage.getItem(OS_KEY);if(raw)return osNormalize(JSON.parse(raw))}catch(e){}return osBlank()}
 function osSave(){OS.updatedAt=Date.now();try{localStorage.setItem(OS_KEY,JSON.stringify(OS));return true}catch(e){toast('Không lưu được dữ liệu Personal OS. Hãy xuất bản sao lưu và kiểm tra dung lượng trình duyệt.');return false}}
 function osToday(){return dayKey(Date.now())}
-function osRule(id){return OS.rules.filter(function(r){return r.id===id})[0]||OS.rules[0]}
+function osRule(id){return OS.rules.filter(function(r){return r.id===id})[0]||{id:String(id||'—'),title:'Nguyên tắc đã lưu trữ',description:'Thông tin nguyên tắc không có trong dữ liệu hiện tại.',active:false}}
+function osNextRuleId(){var max=0;OS.rules.forEach(function(r){var m=/^R(\d+)$/.exec(r.id);if(m)max=Math.max(max,Number(m[1])||0)});return 'R'+String(max+1).padStart(2,'0')}
+function osRuleForm(id){
+  var rule=id?osRule(id):null;if(id&&!OS.rules.some(function(r){return r.id===id})){toast('Không tìm thấy nguyên tắc.');return}
+  var title=rule?rule.title:'',description=rule?rule.description:'';
+  var html='<form data-form="os-rule" data-id="'+esc(rule?rule.id:'')+'"><h2 id="m-title">'+(rule?'Chỉnh sửa nguyên tắc':'Thêm nguyên tắc')+'</h2><p class="lead">Nguyên tắc mới sẽ xuất hiện trong các lần kiểm toán từ thời điểm thêm. Hồ sơ lịch sử không bị viết lại.</p><div class="os-field"><label for="os-rule-title">Tên nguyên tắc</label><input id="os-rule-title" name="title" type="text" maxlength="120" required value="'+esc(title)+'" placeholder="Ví dụ: Đọc sách mỗi ngày"></div><div class="os-field"><label for="os-rule-description">Mô tả và phạm vi áp dụng</label><textarea id="os-rule-description" name="description" required maxlength="500" rows="4" placeholder="Nêu rõ hành vi nào được yêu cầu, trường hợp nào không áp dụng...">'+esc(description)+'</textarea></div><div class="m-actions"><button class="btn" type="button" data-act="close">Hủy</button><button class="btn primary" type="submit">'+(rule?'Lưu thay đổi':'Thêm vào hiến chương')+'</button></div></form>';
+  openModal(html);
+}
+function osSaveRule(form){
+  var title=form.elements.title.value.trim(),description=form.elements.description.value.trim(),id=form.dataset.id||'';
+  if(!title||!description){toast('Hãy điền tên và mô tả nguyên tắc.');return}
+  var now=Date.now();
+  if(id){var rule=osRule(id);if(rule.title!==title||rule.description!==description){rule.revisions=rule.revisions||[];rule.revisions.push({at:now,title:rule.title,description:rule.description,active:rule.active});rule.title=title;rule.description=description;rule.updatedAt=now;}
+    osSave();closeModal();osUi.tab='constitution';renderPersonalOS();toast('Đã cập nhật nguyên tắc. Lịch sử phiên bản được giữ lại.');return;
+  }
+  var newRule={id:osNextRuleId(),title:title,description:description,active:true,createdAt:now,updatedAt:now,revisions:[]};OS.rules.push(newRule);osSave();closeModal();osUi.tab='constitution';renderPersonalOS();toast('Đã thêm '+newRule.id+' vào hiến chương.');
+}
+function osToggleRule(id){
+  var rule=osRule(id);if(!OS.rules.some(function(r){return r.id===id}))return;
+  if(rule.active&&OS.rules.filter(function(r){return r.active}).length<=1){toast('Cần giữ ít nhất một nguyên tắc đang có hiệu lực.');return}
+  var now=Date.now();rule.revisions=rule.revisions||[];rule.revisions.push({at:now,title:rule.title,description:rule.description,active:rule.active});rule.active=!rule.active;rule.updatedAt=now;osSave();renderPersonalOS();toast(rule.active?'Đã kích hoạt nguyên tắc.':'Đã tạm ngưng nguyên tắc. Lịch sử vẫn được giữ.');
+}
 function osAudit(date){return OS.audits.filter(function(a){return a.date===date})[0]||null}
 function osDateLabel(key){var a=key.split('-').map(Number);return pad(a[2])+'/'+pad(a[1])+'/'+a[0]}
 function osLevel(n){return({1:'Nhẹ',2:'Có chủ đích',3:'Nghiêm trọng',4:'Đặc biệt'})[n]||'Nhẹ'}
@@ -1172,6 +1203,7 @@ function osImportFile(file){
       var payload=JSON.parse(String(reader.result||''));
       if(!payload||payload.app!=='duong-dua-personal-os'||!payload.data)throw new Error('bad backup');
       var incoming=osNormalize(payload.data),auditMap={};
+      incoming.rules.forEach(function(inc){var cur=OS.rules.filter(function(r){return r.id===inc.id})[0];if(!cur){OS.rules.push(inc);return}if(Number(inc.updatedAt)>Number(cur.updatedAt)){cur.revisions=(cur.revisions||[]).concat(inc.revisions||[]);cur.revisions.push({at:cur.updatedAt||cur.createdAt,title:cur.title,description:cur.description,active:cur.active});cur.title=inc.title;cur.description=inc.description;cur.active=inc.active;cur.updatedAt=inc.updatedAt;}});
       OS.audits.forEach(function(a){auditMap[a.date]=a});
       incoming.audits.forEach(function(inc){
         var cur=auditMap[inc.date];
@@ -1240,13 +1272,16 @@ function osOverview(){
   return html;
 }
 function osConstitution(){
-  var html='<div class="os-head"><div><p class="os-eyebrow">Personal OS / Constitution</p><h2 class="os-title">Hiến chương cá nhân</h2><p class="os-sub">Ba nguyên tắc đang được đưa vào hệ thống. Việc nghỉ ngơi, vận động, giao tiếp và giải trí lành mạnh không bị xem là vi phạm.</p></div><span class="os-tag">Phiên bản 1.0</span></div>';
-  html+='<div class="os-card"><div class="os-card-head"><h3>Nguyên tắc đang áp dụng</h3><span class="os-tag">'+OS.rules.filter(function(r){return r.active}).length+' hiệu lực</span></div><div class="os-card-body">'+OS.rules.map(function(r){return '<div class="os-rule"><div><h4>'+esc(r.id)+' · '+esc(r.title)+'</h4><p>'+esc(r.description)+'</p></div><span class="os-tag">'+(r.active?'Đang áp dụng':'Tạm ngưng')+'</span></div>'}).join('')+'</div></div>';
-  html+='<div class="os-card"><div class="os-card-head"><h3>Nguyên tắc tối cao</h3></div><div class="os-card-body"><p class="os-callout"><b>Kỷ luật phải phục vụ cuộc sống, không phải cuộc sống phục vụ kỷ luật.</b><br>Không cắt giảm giấc ngủ, bỏ bữa, tập luyện quá mức hoặc cô lập bản thân để duy trì quy tắc. Khi quy tắc không còn phù hợp, xem xét sửa đổi thay vì gây tổn hại cho bản thân.</p><p class="hint">Trong bản đầu tiên, nội dung hiến chương được giữ cố định để tránh sửa nhầm. Chức năng chỉnh sửa có thể được bổ sung sau.</p></div></div>';
+  var html='<div class="os-head"><div><p class="os-eyebrow">Personal OS / Constitution</p><h2 class="os-title">Hiến chương cá nhân</h2><p class="os-sub">Quản lý các nguyên tắc đang áp dụng. Nguyên tắc tạm ngưng vẫn được lưu để bảo toàn lịch sử kiểm toán và hồ sơ vi phạm.</p></div><div class="os-actions"><button class="btn primary" data-act="os-new-rule">+ Thêm nguyên tắc</button></div></div>';
+  html+='<div class="os-card"><div class="os-card-head"><h3>Danh sách nguyên tắc</h3><span class="os-tag">'+OS.rules.filter(function(r){return r.active}).length+' / '+OS.rules.length+' hiệu lực</span></div><div class="os-card-body">';
+  html+=OS.rules.map(function(r){return '<div class="os-rule"><div><h4>'+esc(r.id)+' · '+esc(r.title)+'</h4><p>'+esc(r.description)+'</p><span class="os-tag">'+(r.active?'Đang áp dụng':'Tạm ngưng')+'</span></div><div class="os-actions"><button class="btn sm" type="button" data-act="os-edit-rule" data-id="'+esc(r.id)+'">Chỉnh sửa</button><button class="btn sm" type="button" data-act="os-toggle-rule" data-id="'+esc(r.id)+'">'+(r.active?'Tạm ngưng':'Kích hoạt')+'</button></div></div>'}).join('');
+  html+='</div></div>';
+  html+='<div class="os-card"><div class="os-card-head"><h3>Nguyên tắc tối cao</h3></div><div class="os-card-body"><p class="os-callout"><b>Kỷ luật phải phục vụ cuộc sống, không phải cuộc sống phục vụ kỷ luật.</b><br>Không cắt giảm giấc ngủ, bỏ bữa, tập luyện quá mức hoặc cô lập bản thân để duy trì quy tắc. Khi quy tắc không còn phù hợp, xem xét sửa đổi thay vì gây tổn hại cho bản thân.</p><p class="hint">Mỗi thay đổi được lưu vào lịch sử phiên bản. Không xóa nguyên tắc đã tạo; hãy tạm ngưng để không làm mất liên kết với hồ sơ cũ.</p></div></div>';
   return html;
 }
+
 function osViolationCard(v){
-  var r=osRule(v.ruleId);return '<article class="os-record"><div class="os-record-top"><div><b>'+esc(r.id)+' · '+esc(r.title)+'</b><br><small>'+fmtDateTime(v.occurredAt)+' · Cấp '+v.level+' – '+osLevel(v.level)+'</small></div><span class="os-status '+(v.status==='closed'?'closed':'open')+'">'+(v.status==='closed'?'Đã khắc phục':'Đang xử lý')+'</span></div><p>'+esc(v.description)+'</p><details><summary class="hint">Xem phân tích và biện pháp</summary><p><b>Nguyên nhân:</b> '+esc(v.cause)+'</p><p><b>Khắc phục:</b> '+esc(v.corrective)+'</p><p><b>Phòng ngừa:</b> '+esc(v.prevention)+'</p>'+(v.resolution?'<p><b>Kết quả:</b> '+esc(v.resolution)+'</p>':'')+'</details>'+(v.status==='open'?'<div class="os-actions"><button class="btn sm" data-act="os-resolve" data-id="'+esc(v.id)+'">Ghi nhận đã khắc phục</button></div>':'<small>Đóng hồ sơ: '+fmtDateTime(v.resolvedAt)+'</small>')+'</article>';
+  var r=osRule(v.ruleId);return '<article class="os-record"><div class="os-record-top"><div><b>'+esc(r.id)+' · '+esc(v.ruleTitle||r.title)+'</b><br><small>'+fmtDateTime(v.occurredAt)+' · Cấp '+v.level+' – '+osLevel(v.level)+'</small></div><span class="os-status '+(v.status==='closed'?'closed':'open')+'">'+(v.status==='closed'?'Đã khắc phục':'Đang xử lý')+'</span></div><p>'+esc(v.description)+'</p><details><summary class="hint">Xem phân tích và biện pháp</summary><p><b>Nguyên nhân:</b> '+esc(v.cause)+'</p><p><b>Khắc phục:</b> '+esc(v.corrective)+'</p><p><b>Phòng ngừa:</b> '+esc(v.prevention)+'</p>'+(v.resolution?'<p><b>Kết quả:</b> '+esc(v.resolution)+'</p>':'')+'</details>'+(v.status==='open'?'<div class="os-actions"><button class="btn sm" data-act="os-resolve" data-id="'+esc(v.id)+'">Ghi nhận đã khắc phục</button></div>':'<small>Đóng hồ sơ: '+fmtDateTime(v.resolvedAt)+'</small>')+'</article>';
 }
 function osViolations(){
   var html='<div class="os-head"><div><p class="os-eyebrow">Personal OS / Accountability</p><h2 class="os-title">Hồ sơ vi phạm</h2><p class="os-sub">Lịch sử được lưu giữ, không xóa. Mỗi hồ sơ cần mô tả, nguyên nhân, biện pháp khắc phục và phòng ngừa.</p></div><div class="os-actions"><button class="btn" data-act="os-export">Xuất sao lưu</button><button class="btn primary" data-act="os-new-violation">+ Ghi vi phạm</button></div></div>';
@@ -1266,8 +1301,8 @@ function osSaveAudit(form){
   var date=osToday(),statuses={};OS.rules.filter(function(r){return r.active}).forEach(function(r){var field=form.elements[r.id];if(field)statuses[r.id]=field.value});
   if(OS.rules.some(function(r){return r.active&&!statuses[r.id]})){toast('Hãy chọn trạng thái cho tất cả nguyên tắc.');return}
   var note=form.elements.note.value.trim(),old=osAudit(date),now=Date.now();
-  if(old){old.revisions.push({at:now,statuses:Object.assign({},old.statuses),note:old.note});old.statuses=statuses;old.note=note;old.updatedAt=now;}
-  else OS.audits.push({id:uid(),date:date,at:now,updatedAt:now,statuses:statuses,note:note,revisions:[]});
+  if(old){old.revisions.push({at:now,statuses:Object.assign({},old.statuses),note:old.note,ruleSnapshots:old.ruleSnapshots||[]});old.statuses=statuses;old.ruleSnapshots=OS.rules.filter(function(r){return r.active}).map(function(r){return{id:r.id,title:r.title,description:r.description}});old.note=note;old.updatedAt=now;}
+  else OS.audits.push({id:uid(),date:date,at:now,updatedAt:now,statuses:statuses,ruleSnapshots:OS.rules.filter(function(r){return r.active}).map(function(r){return{id:r.id,title:r.title,description:r.description}}),note:note,revisions:[]});
   osSave();renderPersonalOS();
   var breached=OS.rules.filter(function(r){return statuses[r.id]==='breach'});
   toast(breached.length?'Đã lưu. Hãy lập biên bản cho mục được đánh dấu vi phạm.':'Đã lưu kiểm toán hôm nay.');
@@ -1275,7 +1310,7 @@ function osSaveAudit(form){
 function osCreateViolation(form){
   var ruleId=form.elements.ruleId.value,rule=osRule(ruleId),description=form.elements.description.value.trim(),cause=form.elements.cause.value.trim(),corrective=form.elements.corrective.value.trim(),prevention=form.elements.prevention.value.trim();
   if(!description||!cause||!corrective||!prevention){toast('Hãy điền đầy đủ mô tả, nguyên nhân và biện pháp.');return}
-  var now=Date.now();OS.violations.push({id:uid(),ruleId:rule.id,level:Number(form.elements.level.value)||2,occurredAt:now,createdAt:now,description:description,cause:cause,corrective:corrective,prevention:prevention,status:'open',resolvedAt:null,resolution:'',auditDate:form.dataset.audit||''});
+  var now=Date.now();OS.violations.push({id:uid(),ruleId:rule.id,ruleTitle:rule.title,level:Number(form.elements.level.value)||2,occurredAt:now,createdAt:now,description:description,cause:cause,corrective:corrective,prevention:prevention,status:'open',resolvedAt:null,resolution:'',auditDate:form.dataset.audit||''});
   osSave();closeModal();osUi.tab='violations';renderPersonalOS();toast('Đã lưu hồ sơ. Hồ sơ không thể bị xóa khỏi lịch sử.');
 }
 function osCompleteViolation(form){
@@ -1290,6 +1325,9 @@ document.addEventListener('click',function(e){
   switch(act){
     case 'section':osSetSection(t.dataset.section);break;
     case 'os-tab':osSetTab(t.dataset.tab);break;
+    case 'os-new-rule':osRuleForm('');break;
+    case 'os-edit-rule':osRuleForm(id);break;
+    case 'os-toggle-rule':osToggleRule(id);break;
     case 'os-export':osExport();break;
     case 'os-import':var osFile=$('#os-import-file');if(osFile)osFile.click();break;
     case 'os-new-violation':osViolationForm(t.dataset.rule||'R01',t.dataset.date||'');break;
@@ -1336,7 +1374,8 @@ document.addEventListener('change',function(e){
 document.addEventListener('submit',function(e){
   e.preventDefault();
   var f=e.target,kind=f.dataset.form,id=f.dataset.id,g=id?byId(id):null;
-  if(kind==='os-audit'){osSaveAudit(f)}
+  if(kind==='os-rule'){osSaveRule(f)}
+  else if(kind==='os-audit'){osSaveAudit(f)}
   else if(kind==='os-violation'){osCreateViolation(f)}
   else if(kind==='os-resolve'){osCompleteViolation(f)}
   else if(kind==='step'&&g){

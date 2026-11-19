@@ -86,48 +86,27 @@ Tải tệp mới lên repository: **Add file**, **Upload files**, kéo thả đ
 | "GitHub tạm giới hạn số lần gọi" | Chờ vài phút, app tự thử lại |
 | Chữ hiện bằng phông hệ thống | App tải phông từ Google Fonts. Khi mất mạng lần đầu mở, nó dùng phông có sẵn của máy, không ảnh hưởng chức năng |
 
-## Personal OS (bản tích hợp đầu tiên)
+## Personal OS (tích hợp trong Đường Đua 2.1)
 
-Ứng dụng có thêm khu vực **Hiến chương cá nhân**, gồm:
+Khu vực **Hiến chương cá nhân** hiện hỗ trợ quản lý nguyên tắc linh hoạt:
 
-- Ba nguyên tắc ban đầu: không chơi game; không sử dụng thiết bị điện tử vô nghĩa; ưu tiên lập trình và thuật toán trong giải trí chủ động.
-- Kiểm toán hằng ngày theo từng nguyên tắc.
-- Biên bản vi phạm với cấp độ, mô tả, nguyên nhân, biện pháp khắc phục và phòng ngừa.
-- Đóng hồ sơ sau khi ghi nhận kết quả khắc phục.
+- Có sẵn ba nguyên tắc ban đầu; có thể **thêm nguyên tắc mới** với tên và mô tả/phạm vi áp dụng.
+- Có thể **chỉnh sửa** tên và mô tả; mỗi lần sửa được ghi vào lịch sử phiên bản của nguyên tắc.
+- Có thể **tạm ngưng hoặc kích hoạt lại** nguyên tắc. Không xóa nguyên tắc đã tạo để giữ liên kết với kiểm toán và hồ sơ vi phạm cũ. Luôn phải còn ít nhất một nguyên tắc đang có hiệu lực.
+- Nguyên tắc mới được đưa vào các lần kiểm toán từ thời điểm thêm; dữ liệu kiểm toán của các ngày trước không bị tự động viết lại.
+- Kiểm toán hằng ngày theo từng nguyên tắc đang có hiệu lực.
+- Biên bản vi phạm có cấp độ, mô tả, nguyên nhân, biện pháp khắc phục và phòng ngừa.
 - Lịch sử kiểm toán và vi phạm được giữ lại; chỉnh sửa kiểm toán cùng ngày tạo bản ghi phiên bản trước.
-- Xuất dữ liệu Personal OS thành tệp JSON và nhập lại bằng cơ chế hợp nhất, không xóa hồ sơ đang có.
+- Xuất dữ liệu Personal OS thành tệp JSON và nhập lại bằng cơ chế hợp nhất, bao gồm cả nguyên tắc do người dùng thêm.
 
 ### Ranh giới dữ liệu và quyền riêng tư
 
-Personal OS trong bản này lưu riêng ở `localStorage` với khóa `duongdua.personal.v1`. Dữ liệu đó **không được đưa vào Gist đồng bộ mục tiêu hiện có**. Điều này tránh gửi nhật ký kỷ luật riêng tư vào cơ chế Gist cũ.
+Personal OS lưu riêng ở `localStorage` với khóa `duongdua.personal.v1`. Dữ liệu này **không được đưa vào Gist đồng bộ mục tiêu hiện có**. Điều này tránh gửi nhật ký kỷ luật riêng tư vào cơ chế Gist cũ.
 
-Tuy nhiên, dữ liệu Personal OS hiện chỉ nằm trên trình duyệt/thiết bị đang dùng. Nếu xóa dữ liệu trang web, đổi trình duyệt hoặc mất thiết bị, hồ sơ có thể mất. Hãy dùng **Xuất bản sao lưu** định kỳ và cất tệp JSON ở nơi an toàn. Chưa có đồng bộ đám mây đa thiết bị cho Personal OS trong phiên bản này.
+Dữ liệu Personal OS hiện chỉ nằm trên trình duyệt/thiết bị đang dùng. Nếu xóa dữ liệu trang web, đổi trình duyệt hoặc mất thiết bị, hồ sơ có thể mất. Hãy dùng **Xuất bản sao lưu** định kỳ và cất tệp JSON ở nơi an toàn. Chưa có đồng bộ đám mây đa thiết bị cho Personal OS.
 
-Hồ sơ không có chức năng xóa trong giao diện để bảo toàn lịch sử; đính chính hoặc hoàn tất được ghi nhận bổ sung. Đây là cơ chế lưu trữ ở phía ứng dụng, không phải kho lưu trữ bất biến chống chỉnh sửa ở cấp máy chủ.
-
-### Phạm vi bản phát hành
-
-Đây là bản MVP tích hợp Personal OS vào ứng dụng Đường Đua hiện có. XP, cấp độ và bảng xếp hạng nhiều người chưa được thêm trong bản này. Nên triển khai máy chủ và xác thực trước khi cấp XP dùng chung hoặc đồng bộ dữ liệu cá nhân giữa nhiều thiết bị.
-
-## Personal OS (bản tích hợp đầu tiên)
-
-Ứng dụng có thêm khu vực **Hiến chương cá nhân**, gồm:
-
-- Ba nguyên tắc ban đầu: không chơi game; không sử dụng thiết bị điện tử vô nghĩa; ưu tiên lập trình và thuật toán trong giải trí chủ động.
-- Kiểm toán hằng ngày theo từng nguyên tắc.
-- Biên bản vi phạm với cấp độ, mô tả, nguyên nhân, biện pháp khắc phục và phòng ngừa.
-- Đóng hồ sơ sau khi ghi nhận kết quả khắc phục.
-- Lịch sử kiểm toán và vi phạm được giữ lại; chỉnh sửa kiểm toán cùng ngày tạo bản ghi phiên bản trước.
-- Xuất dữ liệu Personal OS thành tệp JSON và nhập lại bằng cơ chế hợp nhất, không xóa hồ sơ đang có.
-
-### Ranh giới dữ liệu và quyền riêng tư
-
-Personal OS trong bản này lưu riêng ở `localStorage` với khóa `duongdua.personal.v1`. Dữ liệu đó **không được đưa vào Gist đồng bộ mục tiêu hiện có**. Điều này tránh gửi nhật ký kỷ luật riêng tư vào cơ chế Gist cũ.
-
-Tuy nhiên, dữ liệu Personal OS hiện chỉ nằm trên trình duyệt/thiết bị đang dùng. Nếu xóa dữ liệu trang web, đổi trình duyệt hoặc mất thiết bị, hồ sơ có thể mất. Hãy dùng **Xuất bản sao lưu** định kỳ và cất tệp JSON ở nơi an toàn. Chưa có đồng bộ đám mây đa thiết bị cho Personal OS trong phiên bản này.
-
-Hồ sơ không có chức năng xóa trong giao diện để bảo toàn lịch sử; đính chính hoặc hoàn tất được ghi nhận bổ sung. Đây là cơ chế lưu trữ ở phía ứng dụng, không phải kho lưu trữ bất biến chống chỉnh sửa ở cấp máy chủ.
+Hồ sơ vi phạm không có chức năng xóa trong giao diện. Nguyên tắc đã tạo cũng không bị xóa; có thể tạm ngưng để bảo toàn các tham chiếu lịch sử. Đây là cơ chế lưu trữ ở phía ứng dụng, không phải kho lưu trữ bất biến chống chỉnh sửa ở cấp máy chủ.
 
 ### Phạm vi bản phát hành
 
-Đây là bản MVP tích hợp Personal OS vào ứng dụng Đường Đua hiện có. XP, cấp độ và bảng xếp hạng nhiều người chưa được thêm trong bản này. Nên triển khai máy chủ và xác thực trước khi cấp XP dùng chung hoặc đồng bộ dữ liệu cá nhân giữa nhiều thiết bị.
+Đây là bản nâng cấp quản lý nguyên tắc trên nền MVP Personal OS. XP, cấp độ và bảng xếp hạng nhiều người chưa được thêm trong bản này. Trước khi cấp XP dùng chung hoặc đồng bộ dữ liệu kỷ luật giữa nhiều thiết bị, cần triển khai máy chủ, xác thực và phân quyền thích hợp.
